@@ -1,0 +1,12 @@
+name: SelectionAPI
+version: 1.0 b1
+
+description: >
+            SelectionAPI is a plugin for Spout Server which allows players to make Selections.
+            There are permissions for being able to have Selections, making it easy to limit
+            use by players that are not of a high enough rank.
+            
+author: DziNeIT
+
+main: me.dzineit.selectionapi.spout.SpoutSelectionAPI
+platform: SERVER
