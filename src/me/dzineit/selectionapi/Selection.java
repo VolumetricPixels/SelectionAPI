@@ -6,14 +6,28 @@
  */
 package me.dzineit.selectionapi;
 
-public abstract class Selection {
+
+import org.spout.api.Spout;
+import org.spout.api.entity.Player;
+import org.spout.api.geo.World;
+
+public class Selection {
     
+    private World world;
     private String ownerName;
     private SelectionPoint pos1;
     private SelectionPoint pos2;
-
-    public Selection(String owner) {
-        this.ownerName = owner;
+    
+    Selection(String owner, World w) {
+        this.world = w;
+    }
+    
+    public Player getOwner() {
+        return Spout.getEngine().getPlayer(getOwnerName(), true);
+    }
+    
+    public World getWorld() {
+        return world;
     }
     
     public String getOwnerName() {
@@ -34,6 +48,10 @@ public abstract class Selection {
     
     public void setPos2(SelectionPoint pos2) {
         this.pos2 = pos2;
+    }
+    
+    public void setWorld(World w) {
+        this.world = w;
     }
     
     public SelectionPoint getMinPoint() {
