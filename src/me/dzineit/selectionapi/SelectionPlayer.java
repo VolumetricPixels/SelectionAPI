@@ -6,6 +6,7 @@
  */
 package me.dzineit.selectionapi;
 
+import org.spout.api.Server;
 import org.spout.api.Spout;
 import org.spout.api.entity.Player;
 
@@ -39,7 +40,7 @@ public class SelectionPlayer {
     }
     
     public Player getPlayer() {
-        return Spout.getEngine().getPlayer(name, true);
+        return ((Server) Spout.getEngine()).getPlayer(name, true);
     }
     
 }
