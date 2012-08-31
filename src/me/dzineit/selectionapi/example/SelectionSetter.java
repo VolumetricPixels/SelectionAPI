@@ -6,11 +6,11 @@
  */
 package me.dzineit.selectionapi.example;
 
+import org.spout.api.geo.discrete.Point;
 import org.spout.api.material.BlockMaterial;
 
 import me.dzineit.selectionapi.Selection;
-import me.dzineit.selectionapi.SelectionPlayerManager;
-import me.dzineit.selectionapi.SelectionPoint;
+import me.dzineit.selectionapi.SelectionAPI;
 
 /**
  * An example to show using the SelectionAPI to make an area block setter.
@@ -24,25 +24,25 @@ public class SelectionSetter {
      * @param blockId The block ID to set the Selection to
      */
     public void setAllBlocks(String player, short blockId) {
-        Selection s = SelectionPlayerManager.getSelectionPlayer(player).getSelection();
-        SelectionPoint min = s.getMinPoint();
-        SelectionPoint max = s.getMaxPoint();
+        Selection s = SelectionAPI.getSelectionPlayer(player).getSelection();
+        Point min = s.getMinPoint();
+        Point max = s.getMaxPoint();
         
-        int minX = min.getX();
-        int maxX = max.getX();
-        int minY = min.getY();
-        int maxY = max.getY();
-        int minZ = min.getZ();
-        int maxZ = max.getZ();
+        float minX = min.getX();
+        float maxX = max.getX();
+        float minY = min.getY();
+        float maxY = max.getY();
+        float minZ = min.getZ();
+        float maxZ = max.getZ();
         
         /*
          * Loop through all positions in the user's selection and set
          * them all to the given block ID for the method.
          */
-        for (int x = minX; x <= maxX; ++x) {
-            for (int y = minY; y <= maxY; ++y) {
-                for (int z = minZ; z <= maxZ; ++z) {
-                    s.getWorld().setBlockMaterial(x, y, z, BlockMaterial.get(blockId), (short) 0, s.getWorld());
+        for (float x = minX; x <= maxX; ++x) {
+            for (float y = minY; y <= maxY; ++y) {
+                for (float z = minZ; z <= maxZ; ++z) {
+                    s.getWorld().setBlockMaterial((int) x, (int) y, (int) z, BlockMaterial.get(blockId), (short) 0, s.getWorld());
                 }
             }
         }

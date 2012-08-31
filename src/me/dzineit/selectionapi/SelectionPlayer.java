@@ -6,7 +6,6 @@
  */
 package me.dzineit.selectionapi;
 
-
 import org.spout.api.Spout;
 import org.spout.api.entity.Player;
 
@@ -29,6 +28,10 @@ public class SelectionPlayer {
     
     public boolean hasValidSelection() {
         return sel.getPos1() != null && sel.getPos2() != null && getPlayer().hasPermission("selections.select");
+    }
+    
+    public boolean isValidPlayer() {
+        return getPlayer() != null;
     }
     
     public String getName() {
