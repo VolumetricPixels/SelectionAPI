@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import me.dzineit.selectionapi.SelectionPlayer.Selection;
+
 import org.spout.api.Spout;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.event.EventHandler;
@@ -59,7 +61,7 @@ public class SelectionAPI extends CommonPlugin implements Listener {
         Selection s = getSelectionPlayer(e.getPlayer().getName()).getSelection();
         Point p = e.getInteractedPoint();
         
-        switch (a) {            
+        switch (a) {
             case LEFT_CLICK:
                 s.setPos1(new Point(p.getWorld(), p.getBlockX(), p.getBlockY(), p.getBlockZ()));
                 e.getPlayer().sendMessage(ChatStyle.GRAY, "Point 1: ", p.getWorld().getName(), ", ", p.getBlockX(), ", " , p.getBlockY(), ", ", p.getBlockZ());

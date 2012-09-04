@@ -9,8 +9,8 @@ package me.dzineit.selectionapi.example;
 import org.spout.api.geo.discrete.Point;
 import org.spout.api.material.BlockMaterial;
 
-import me.dzineit.selectionapi.Selection;
 import me.dzineit.selectionapi.SelectionAPI;
+import me.dzineit.selectionapi.SelectionPlayer.Selection;
 
 /**
  * An example to show using the SelectionAPI to make an area block setter.
