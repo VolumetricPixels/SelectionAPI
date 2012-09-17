@@ -78,7 +78,7 @@ public class SelectionAPI extends CommonPlugin implements Listener {
 
     public static SelectionPlayer getSelectionPlayer(String name) {
         if (!players.containsKey(name)) {
-            return players.put(name, new SelectionPlayer(name));
+            players.put(name, new SelectionPlayer(name));
         }
         return players.get(name);
     }

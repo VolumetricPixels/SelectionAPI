@@ -45,7 +45,6 @@ public class SelectionPlayer {
     }
 
     public class Selection {
-
         private World world;
         private String ownerName;
         private Point pos1;
