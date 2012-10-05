@@ -7,11 +7,7 @@
 package me.dzineit.selectionapi;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
-
-import me.dzineit.selectionapi.SelectionPlayer.Selection;
 
 import org.spout.api.Spout;
 import org.spout.api.chat.style.ChatStyle;
@@ -20,6 +16,7 @@ import org.spout.api.event.Listener;
 import org.spout.api.event.Order;
 import org.spout.api.event.player.PlayerInteractEvent;
 import org.spout.api.event.player.PlayerInteractEvent.Action;
+import org.spout.api.event.player.PlayerJoinEvent;
 import org.spout.api.geo.discrete.Point;
 import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.PluginDescriptionFile;
@@ -57,7 +54,7 @@ public class SelectionAPI extends CommonPlugin implements Listener {
         }
 
         Action a = e.getAction();
-        Selection s = getSelectionPlayer(e.getPlayer().getName()).getSelection();
+        Selection s = e.getPlayer().get(SelectionComponent.class).getSelection();
         Point p = e.getInteractedPoint();
 
         switch (a) {
@@ -74,12 +71,8 @@ public class SelectionAPI extends CommonPlugin implements Listener {
         }
     }
 
-    private static Map<String, SelectionPlayer> players = new HashMap<String, SelectionPlayer>();
-
-    public static SelectionPlayer getSelectionPlayer(String name) {
-        if (!players.containsKey(name)) {
-            players.put(name, new SelectionPlayer(name));
-        }
-        return players.get(name);
+    @EventHandler(order = Order.MONITOR)
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        e.getPlayer().add(SelectionComponent.class);
     }
 }
