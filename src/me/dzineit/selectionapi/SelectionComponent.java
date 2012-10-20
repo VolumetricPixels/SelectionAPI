@@ -9,7 +9,7 @@ public class SelectionComponent extends EntityComponent {
 
     @Override
     public void onAttached() {
-        Entity player = getHolder();
+        Entity player = getOwner();
 
         if (player instanceof Player) {
             selection = new Selection(((Player) player).getName(), player.getWorld());
