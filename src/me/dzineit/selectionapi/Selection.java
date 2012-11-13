@@ -12,7 +12,7 @@ public class Selection {
     private Point pos2;
 
     public Selection(String owner, World w) {
-        this.world = w;
+        world = w;
     }
 
     public Player getOwner() {
@@ -50,7 +50,7 @@ public class Selection {
     }
 
     public void setWorld(World w) {
-        this.world = w;
+        world = w;
     }
 
     public Point getMinPoint() {
@@ -59,5 +59,9 @@ public class Selection {
 
     public Point getMaxPoint() {
         return new Point(getWorld(), Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ()));
+    }
+
+    public boolean isValid() {
+        return getPos1() != null && getPos2() != null && pos1.getWorld() == pos2.getWorld();
     }
 }

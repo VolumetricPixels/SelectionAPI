@@ -13,6 +13,8 @@ public class SelectionComponent extends EntityComponent {
 
         if (player instanceof Player) {
             selection = new Selection(((Player) player).getName(), player.getWorld());
+        } else {
+            selection = new Selection(null, null);
         }
     }
 
