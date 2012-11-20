@@ -14,18 +14,18 @@ import org.spout.api.geo.discrete.Point;
 import org.spout.api.material.BlockMaterial;
 
 import me.dzineit.selectionapi.Selection;
-import me.dzineit.selectionapi.SelectionComponent;
+import me.dzineit.selectionapi.SelectionPlayer;
 
 /**
  * An example to show using the SelectionAPI to make an area block setter.
  * Probably not a good idea to use this as there is no undo function.
  */
 public class SelectionSetter {
-    private SelectionComponent player;
+    private SelectionPlayer player;
     private List<SetterEdit> edits = new ArrayList<SetterEdit>();
 
     public SelectionSetter(Player player) {
-        this.player = player.get(SelectionComponent.class);
+        this.player = player.get(SelectionPlayer.class);
     }
 
     /**

@@ -54,7 +54,7 @@ public class SelectionAPI extends CommonPlugin implements Listener {
         }
 
         Action a = e.getAction();
-        Selection s = e.getPlayer().get(SelectionComponent.class).getSelection();
+        Selection s = e.getPlayer().get(SelectionPlayer.class).getSelection();
         Point p = e.getInteractedPoint();
 
         switch (a) {
@@ -73,6 +73,6 @@ public class SelectionAPI extends CommonPlugin implements Listener {
 
     @EventHandler(order = Order.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent e) {
-        e.getPlayer().add(SelectionComponent.class);
+        e.getPlayer().add(SelectionPlayer.class);
     }
 }

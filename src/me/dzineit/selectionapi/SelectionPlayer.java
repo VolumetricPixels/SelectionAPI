@@ -4,7 +4,7 @@ import org.spout.api.component.components.EntityComponent;
 import org.spout.api.entity.Entity;
 import org.spout.api.entity.Player;
 
-public class SelectionComponent extends EntityComponent {
+public class SelectionPlayer extends EntityComponent {
     private Selection selection;
 
     @Override
