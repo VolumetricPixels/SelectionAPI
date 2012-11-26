@@ -1,3 +1,9 @@
+/*
+ * This file is part of SelectionAPI.
+ *
+ * Copyright (c) 2012-2012, DziNeIT <http://github.com/DziNeIT/>
+ * SelectionAPI is licensed under the VolumetricPixels License Version 1.
+ */
 package me.dzineit.selectionapi;
 
 import org.spout.api.component.components.EntityComponent;
@@ -15,6 +21,7 @@ public class SelectionPlayer extends EntityComponent {
             selection = new Selection(((Player) player).getName(), player.getWorld());
         } else {
             selection = new Selection(null, null);
+            throw new IllegalStateException("Cannot assign SelectionPlayer component to non-player Entity!");
         }
     }
 

@@ -9,16 +9,15 @@ package me.dzineit.selectionapi.example;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.dzineit.selectionapi.Selection;
+import me.dzineit.selectionapi.SelectionPlayer;
+
 import org.spout.api.entity.Player;
 import org.spout.api.geo.discrete.Point;
 import org.spout.api.material.BlockMaterial;
 
-import me.dzineit.selectionapi.Selection;
-import me.dzineit.selectionapi.SelectionPlayer;
-
 /**
- * An example to show using the SelectionAPI to make an area block setter.
- * Probably not a good idea to use this as there is no undo function.
+ * An example to show using the SelectionAPI to make an area block setter, with undos and redos
  */
 public class SelectionSetter {
     private SelectionPlayer player;
@@ -66,9 +65,12 @@ public class SelectionSetter {
     }
 
     public void undo(int count) {
-        for (int i = ((edits.size() - 1) - count); i < edits.size(); i++) {
-            if (edits.get(i) != null) {
+        for (int i = edits.size() - 1 - count; i < edits.size(); i++) {
+            SetterEdit e = edits.get(i);
+            if (e != null && !e.undone) {
                 edits.get(i).undo();
+            } else {
+                i--;
             }
         }
     }
@@ -78,14 +80,12 @@ public class SelectionSetter {
     }
 
     public void redo(int count) {
-        for (SetterEdit edit : edits) {
-            if (edit.undone == false) {
-                continue;
-            }
-            edit.redo();
-            count--;
-            if (count == 0) {
-                break;
+        for (int i = count; i > 0; i--) {
+            SetterEdit e = edits.get(i);
+            if (e != null && e.undone) {
+                e.redo();
+            } else {
+                i++;
             }
         }
     }
@@ -138,7 +138,7 @@ public class SelectionSetter {
 
         private BlockData(BlockMaterial bm, Point pos) {
             this.bm = bm;
-            this.position = pos;
+            position = pos;
         }
 
         public BlockMaterial getMaterial() {
