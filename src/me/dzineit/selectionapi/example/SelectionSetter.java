@@ -54,7 +54,7 @@ public class SelectionSetter {
         for (float x = minX; x <= maxX; ++x) {
             for (float y = minY; y <= maxY; ++y) {
                 for (float z = minZ; z <= maxZ; ++z) {
-                    s.getWorld().setBlockMaterial((int) x, (int) y, (int) z, BlockMaterial.get(blockId), (short) 0, s.getWorld());
+                    s.getWorld().setBlockMaterial((int) x, (int) y, (int) z, BlockMaterial.get(blockId), (short) 0, null);
                 }
             }
         }
@@ -118,7 +118,7 @@ public class SelectionSetter {
             }
             for (int i = 0; i < after.size(); i++) {
                 Point p = after.get(i).getPosition();
-                p.getWorld().setBlockMaterial(p.getBlockX(), p.getBlockY(), p.getBlockZ(), before.get(i).getMaterial(), (short) 0, p.getWorld());
+                p.getWorld().setBlockMaterial(p.getBlockX(), p.getBlockY(), p.getBlockZ(), before.get(i).getMaterial(), (short) 0, null);
                 BlockData h = after.get(i);
                 after.set(i, before.get(i));
                 before.set(i, h);

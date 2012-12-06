@@ -7,12 +7,11 @@
 package me.dzineit.selectionapi;
 
 import java.io.File;
-import java.util.logging.Logger;
 
-import org.spout.api.Source;
 import org.spout.api.Spout;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.entity.Player;
+import org.spout.api.event.Cause;
 import org.spout.api.event.EventHandler;
 import org.spout.api.event.Listener;
 import org.spout.api.event.Order;
@@ -24,7 +23,6 @@ import org.spout.api.geo.discrete.Point;
 import org.spout.api.material.BlockMaterial;
 import org.spout.api.material.block.BlockSnapshot;
 import org.spout.api.plugin.CommonPlugin;
-import org.spout.api.plugin.PluginDescriptionFile;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
 /**
@@ -33,16 +31,10 @@ import org.spout.api.util.config.yaml.YamlConfiguration;
 public class SelectionAPI extends CommonPlugin implements Listener {
     private short selectorId; // The ID of the item to be used for selections
 
-    private Logger log;
-    private PluginDescriptionFile pdf;
     private YamlConfiguration yConf;
 
     @Override
     public void onEnable() {
-        // Variables
-        log = getLogger();
-        pdf = getDescription();
-
         // Config
         yConf = new YamlConfiguration(new File(getDataFolder(), "config.yml"));
         yConf.setWritesDefaults(true);
@@ -91,12 +83,13 @@ public class SelectionAPI extends CommonPlugin implements Listener {
         BlockSnapshot snap = event.getSnapshot();
         if (snap.getMaterial() == BlockMaterial.AIR) {
             // It's a break!
-            Source source = event.getSource();
-            if (!(source instanceof Player)) {
+            Cause<?> source = event.getCause();
+            Object obj = source.getSource();
+            if (!(obj instanceof Player)) {
                 return; // Booooo!
             }
             // It's a player, let's continue!
-            Point point = snap.getBlock(this).getPosition();
+            Point point = snap.getBlock().getPosition();
             Player player = (Player) source;
             SelectionPlayer c = player.getExact(SelectionPlayer.class);
             // TODO: Apparently there is no way to get the held item of a player without Vanilla depends. Looking into this
