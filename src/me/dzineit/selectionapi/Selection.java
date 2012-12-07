@@ -11,6 +11,8 @@ import org.spout.api.entity.Player;
 import org.spout.api.geo.World;
 import org.spout.api.geo.discrete.Point;
 
+import static java.lang.Math.*;
+
 public class Selection {
     private World world;
     private String ownerName;
@@ -60,11 +62,11 @@ public class Selection {
     }
 
     public Point getMinPoint() {
-        return new Point(getWorld(), Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ()));
+        return new Point(getWorld(), min(pos1.getX(), pos2.getX()), min(pos1.getY(), pos2.getY()), min(pos1.getZ(), pos2.getZ()));
     }
 
     public Point getMaxPoint() {
-        return new Point(getWorld(), Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ()));
+        return new Point(getWorld(), max(pos1.getX(), pos2.getX()), max(pos1.getY(), pos2.getY()), max(pos1.getZ(), pos2.getZ()));
     }
 
     public boolean isValid() {
