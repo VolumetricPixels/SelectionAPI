@@ -6,7 +6,7 @@
  */
 package me.dzineit.selectionapi;
 
-import org.spout.api.component.components.EntityComponent;
+import org.spout.api.component.type.EntityComponent;
 import org.spout.api.entity.Entity;
 import org.spout.api.entity.Player;
 
