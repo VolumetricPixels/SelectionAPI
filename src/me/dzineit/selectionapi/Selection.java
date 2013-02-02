@@ -9,67 +9,21 @@ package me.dzineit.selectionapi;
 import org.spout.api.Spout;
 import org.spout.api.entity.Player;
 import org.spout.api.geo.World;
-import org.spout.api.geo.discrete.Point;
 
-import static java.lang.Math.*;
-
-public class Selection {
-    private World world;
+public class Selection extends BiPointRegion {
     private String ownerName;
-    private Point pos1;
-    private Point pos2;
 
     public Selection(String owner, World w) {
-        world = w;
+        super(w);
+        this.ownerName = owner;
     }
 
     public Player getOwner() {
         return Spout.getEngine().getPlayer(getOwnerName(), true);
     }
 
-    public World getWorld() {
-        return world;
-    }
-
     public String getOwnerName() {
         return ownerName;
     }
 
-    public Point getPos1() {
-        return pos1;
-    }
-
-    public Point getPos2() {
-        return pos2;
-    }
-
-    public void setPos1(Point pos1) {
-        this.pos1 = pos1;
-        if (pos2.getWorld() != pos1.getWorld()) {
-            pos2 = null;
-        }
-    }
-
-    public void setPos2(Point pos2) {
-        this.pos2 = pos2;
-        if (pos2.getWorld() != pos1.getWorld()) {
-            pos1 = null;
-        }
-    }
-
-    public void setWorld(World w) {
-        world = w;
-    }
-
-    public Point getMinPoint() {
-        return new Point(getWorld(), min(pos1.getX(), pos2.getX()), min(pos1.getY(), pos2.getY()), min(pos1.getZ(), pos2.getZ()));
-    }
-
-    public Point getMaxPoint() {
-        return new Point(getWorld(), max(pos1.getX(), pos2.getX()), max(pos1.getY(), pos2.getY()), max(pos1.getZ(), pos2.getZ()));
-    }
-
-    public boolean isValid() {
-        return getPos1() != null && getPos2() != null && pos1.getWorld() == pos2.getWorld();
-    }
 }
