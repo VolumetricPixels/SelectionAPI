@@ -1,30 +1,52 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>me.dzineit</groupId>
-  <artifactId>selectionapi</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>SelectionAPI</name>
-  <description>SelectionAPI is a lightweight API for player selections</description>
-  <distributionManagement>
-    <repository>
-      <id>xem-repo</id>
-      <url>http://repo.xemsdoom.com/</url>
-    </repository>
-    <snapshotRepository>
-      <id>xem-repo</id>
-      <url>http://repo.xemsdoom.com/</url>
-    </snapshotRepository>
-  </distributionManagement>
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source/>
-          <target/>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+    <modelVersion>4.0.0</modelVersion>
+ 
+    <groupId>me.dzineit</groupId>
+    <artifactId>selectionapi</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>SelectionAPI</name>
+    <description>SelectionAPI is a lightweight API for player selections</description>
+ 
+    <distributionManagement>
+        <repository>
+            <id>xem-repo</id>
+            <url>http://repo.xemsdoom.com/</url>
+        </repository>
+            <snapshotRepository>
+            <id>xem-repo</id>
+            <url>http://repo.xemsdoom.com/</url>
+        </snapshotRepository>
+    </distributionManagement>
+ 
+      <!-- Repository locations -->
+    <repositories>
+        <repository>
+            <id>spout-repo</id>
+            <url>http://repo.spout.org</url>
+        </repository>
+    </repositories>
+ 
+    <!-- Dependencies -->
+      <dependencies>
+        <dependency>
+            <groupId>org.spout</groupId>
+            <artifactId>spoutapi</artifactId>
+            <version>dev-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+ 
+    <!-- Build -->
+    <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>2.3.2</version>
+            <configuration>
+              <source/>
+              <target/>
+            </configuration>
+          </plugin>
+        </plugins>
+    </build>
+ 
 </project>
