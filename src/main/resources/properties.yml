@@ -8,5 +8,5 @@ description: >
             
 author: DziNeIT
 
-main: me.dzineit.selectionapi.spout.SpoutSelectionAPI
+main: me.dzineit.selectionapi.SelectionAPI
 platform: SERVER
