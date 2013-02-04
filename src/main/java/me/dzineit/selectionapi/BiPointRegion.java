@@ -6,11 +6,13 @@
  */
 package me.dzineit.selectionapi;
 
-import org.spout.api.geo.World;
-import org.spout.api.geo.discrete.Point;
-
 import static java.lang.Math.min;
 import static java.lang.Math.max;
+
+import org.spout.api.geo.World;
+import org.spout.api.geo.discrete.Point;
+import org.spout.api.geo.cuboid.Cuboid;
+import org.spout.api.math.Vector3;
 
 public class BiPointRegion {
     private World world;
@@ -35,14 +37,14 @@ public class BiPointRegion {
 
     public void setPos1(Point pos1) {
         this.pos1 = pos1;
-        if (pos2.getWorld() != pos1.getWorld()) {
+        if (pos2 != null && pos1 != null && pos2.getWorld() != pos1.getWorld()) {
             pos2 = null;
         }
     }
 
     public void setPos2(Point pos2) {
         this.pos2 = pos2;
-        if (pos2.getWorld() != pos1.getWorld()) {
+        if (pos2 != null && pos1 != null && pos2.getWorld() != pos1.getWorld()) {
             pos1 = null;
         }
     }
@@ -61,5 +63,11 @@ public class BiPointRegion {
 
     public boolean isValid() {
         return getPos1() != null && getPos2() != null && pos1.getWorld() == pos2.getWorld();
+    }
+    
+    public Cuboid toCuboid() {
+        Point min = getMinPoint();
+        Point max = getMaxPoint();
+        return new Cuboid(min, new Vector3(max.getBlockX() - min.getBlockX(), max.getBlockY() - min.getBlockY(), max.getBlockZ() - min.getBlockZ()));
     }
 }
