@@ -100,8 +100,6 @@ public class SelectionAPI extends CommonPlugin implements Listener {
     @EventHandler(order = Order.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent e) {
         // Add component
-        if (!e.getPlayer().hasExact(SelectionPlayer.class)) {
-            e.getPlayer().add(SelectionPlayer.class);
-        }
+        e.getPlayer().add(SelectionPlayer.class);
     }
 }
