@@ -33,6 +33,8 @@ public class SelectionAPI extends CommonPlugin implements Listener, CommandExecu
     public void onEnable() {
         // Spout registrations
         getEngine().getEventManager().registerEvents(this, this);
+        getEngine().getRootCommand().addSubCommand(this, "pos1").setExecutor(this);
+        getEngine().getRootCommand().addSubCommand(this, "pos2").setExecutor(this);
     }
 
     @Override
