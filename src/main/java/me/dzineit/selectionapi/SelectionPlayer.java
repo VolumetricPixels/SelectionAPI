@@ -12,11 +12,11 @@ import org.spout.api.entity.Player;
 
 public class SelectionPlayer extends EntityComponent {
     private Selection selection;
+    private int selecting;
 
     @Override
     public void onAttached() {
         Entity player = getOwner();
-
         if (player instanceof Player) {
             selection = new Selection(((Player) player).getName(), player.getWorld());
         } else {
@@ -28,4 +28,12 @@ public class SelectionPlayer extends EntityComponent {
     public Selection getSelection() {
         return selection;
     }
+
+    public int getSelecting() {
+    	return selecting;
+    }
+
+	public void setSelecting(int selecting) {
+		this.selecting = selecting;
+	}
 }

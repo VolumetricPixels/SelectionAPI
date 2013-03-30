@@ -8,8 +8,11 @@ package me.dzineit.selectionapi;
 
 import java.io.File;
 
-import org.spout.api.Spout;
 import org.spout.api.chat.style.ChatStyle;
+import org.spout.api.command.Command;
+import org.spout.api.command.CommandContext;
+import org.spout.api.command.CommandExecutor;
+import org.spout.api.command.CommandSource;
 import org.spout.api.entity.Player;
 import org.spout.api.event.Cause;
 import org.spout.api.event.EventHandler;
@@ -17,89 +20,109 @@ import org.spout.api.event.Listener;
 import org.spout.api.event.Order;
 import org.spout.api.event.block.BlockChangeEvent;
 import org.spout.api.event.player.PlayerInteractEvent;
-import org.spout.api.event.player.PlayerInteractEvent.Action;
 import org.spout.api.event.player.PlayerJoinEvent;
+import org.spout.api.exception.CommandException;
 import org.spout.api.geo.discrete.Point;
-import org.spout.api.material.BlockMaterial;
-import org.spout.api.material.block.BlockSnapshot;
 import org.spout.api.plugin.CommonPlugin;
-import org.spout.api.util.config.yaml.YamlConfiguration;
 
 /**
  * SelectionAPI is a small, lightweight API for player region selections
  */
-public class SelectionAPI extends CommonPlugin implements Listener {
-    private short selectorId; // The ID of the item to be used for selections
+public class SelectionAPI extends CommonPlugin implements Listener, CommandExecutor {
+	@Override
+	public void onEnable() {
+		// Spout registrations
+		getEngine().getEventManager().registerEvents(this, this);
+	}
 
-    private YamlConfiguration yConf;
+	@Override
+	public void onDisable() {
+	}
 
-    @Override
-    public void onEnable() {
-        // Config
-        yConf = new YamlConfiguration(new File(getDataFolder(), "config.yml"));
-        yConf.setWritesDefaults(true);
-        selectorId = yConf.getNode("Selector-Tool-Id").getShort((short) 256);
+	@Override
+	public void processCommand(CommandSource source, Command cmd, CommandContext context) throws CommandException {
+		int a = -1;
+		boolean b = false;
+		if (!(source instanceof Player)) {
+			throw new CommandException("Only players can make selections!");
+		}
+		if (cmd.getPreferredName().equalsIgnoreCase("pos1")) {
+			a = 1;
+			if (context.length() > 0) {
+				String arg1 = context.getString(0);
+				if (arg1.equalsIgnoreCase("here")) {
+					b = true;
+				} else {
+					throw new CommandException("Unrecognised subcommand!");
+				}
+			} else {
+				source.sendMessage(ChatStyle.GRAY, "Click a block to set position 1...");
+			}
+		} else if (cmd.getPreferredName().equalsIgnoreCase("pos2")) {
+			a = 2;
+			if (context.length() > 0) {
+				String arg1 = context.getString(0);
+				if (arg1.equalsIgnoreCase("here")) {
+					b = true;
+				} else {
+					throw new CommandException("Unrecognised subcommand!");
+				}
+			} else {
+				source.sendMessage(ChatStyle.GRAY, "Click a block to set position 2...");
+			}
+		}
+		SelectionPlayer p = ((Player) source).get(SelectionPlayer.class);
+		if (b) {
+			p.getSelection().setPos(a, p.getOwner().getScene().getPosition());
+		} else {
+			p.setSelecting(a);
+		}
+	}
 
-        // Spout registrations
-        Spout.getEventManager().registerEvents(this, this);
-    }
+	@EventHandler(order = Order.LATEST_IGNORE_CANCELLED)
+	public void onPlayerInteract(PlayerInteractEvent e) {
+		Player player = e.getPlayer();
+		Point p = e.getInteractedPoint();
+		// Check permissions
+		if (!player.hasPermission("selectionapi.select")) {
+			return;
+		}
+		SelectionPlayer sp = player.get(SelectionPlayer.class);
+		if (sp.getSelecting() > 0 && sp.getSelecting() < 3) {
+			Selection selection = sp.getSelection();
+			selection.setPos(sp.getSelecting(), p);
+			e.setCancelled(true);
+			player.sendMessage("Set position " + sp.getSelecting() + " to " + p.getBlockX() + ", " + p.getBlockY() + ", " + p.getBlockZ());
+			sp.setSelecting(0);
+		}
+	}
 
-    @Override
-    public void onDisable() {
-    }
+	@EventHandler(order = Order.LATEST_IGNORE_CANCELLED)
+	public void onBlockChange(BlockChangeEvent event) {
+		Cause<?> cause = event.getCause();
+		Object source = cause.getSource();
+		if (!(source instanceof Player)) {
+			return;
+		}
+		Player player = (Player) source;
+		Point p = event.getBlock().getPosition();
+		// Check permissions
+		if (!player.hasPermission("selectionapi.select")) {
+			return;
+		}
+		SelectionPlayer sp = player.get(SelectionPlayer.class);
+		if (sp.getSelecting() > 0 && sp.getSelecting() < 3) {
+			Selection selection = sp.getSelection();
+			selection.setPos(sp.getSelecting(), p);
+			event.setCancelled(true);
+			player.sendMessage("Set position " + sp.getSelecting() + " to " + p.getBlockX() + ", " + p.getBlockY() + ", " + p.getBlockZ());
+			sp.setSelecting(0);
+		}
+	}
 
-    @EventHandler(order = Order.MONITOR)
-    public void onPlayerInteract(PlayerInteractEvent e) {
-        Player player = e.getPlayer();
-        Point p = e.getInteractedPoint();
-        // Check for anything that means we can't run selection management or we don't need to
-        if (p == null || e.isCancelled() || e.isAir() || e.getHeldItem().getMaterial().getId() != selectorId || !player.hasPermission("selections.select")) {
-            return;
-        }
-
-        Action a = e.getAction();
-        Selection s = player.getExact(SelectionPlayer.class).getSelection();
-
-        switch (a) {
-            case LEFT_CLICK:
-                // Set point 1
-                s.setPos1(new Point(p.getWorld(), p.getBlockX(), p.getBlockY(), p.getBlockZ()));
-                player.sendMessage(ChatStyle.GRAY, "Point 1: ", p.getWorld().getName(), ", ", p.getBlockX(), ", ", p.getBlockY(), ", ",
-                        p.getBlockZ());
-                break;
-            case RIGHT_CLICK:
-                // Set point 2
-                s.setPos2(new Point(p.getWorld(), p.getBlockX(), p.getBlockY(), p.getBlockZ()));
-                player.sendMessage(ChatStyle.GRAY, "Point 2: ", p.getWorld().getName(), ", ", p.getBlockX(), ", ", p.getBlockY(), ", ",
-                        p.getBlockZ());
-                break;
-            default:
-                return;
-        }
-    }
-
-    //@EventHandler(order = Order.LATEST_IGNORE_CANCELLED)
-    public void onBlockChange(BlockChangeEvent event) {
-        BlockSnapshot snap = event.getSnapshot();
-        if (snap.getMaterial() == BlockMaterial.AIR) {
-            // It's a break!
-            Cause<?> source = event.getCause();
-            Object obj = source.getSource();
-            if (!(obj instanceof Player)) {
-                return; // Booooo!
-            }
-            // It's a player, let's continue!
-            Point point = snap.getBlock().getPosition();
-            Player player = (Player) source;
-            SelectionPlayer c = player.getExact(SelectionPlayer.class);
-            // TODO: Apparently there is no way to get the held item of a player without Vanilla depends. Looking into this
-            // For now, this method isn't registered because I commented out the EventHandler line
-        }
-    }
-
-    @EventHandler(order = Order.MONITOR)
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        // Add component
-        e.getPlayer().add(SelectionPlayer.class);
-    }
+	@EventHandler(order = Order.MONITOR)
+	public void onPlayerJoin(PlayerJoinEvent e) {
+		// Add SelectionPlayer component for selections
+		e.getPlayer().add(SelectionPlayer.class);
+	}
 }

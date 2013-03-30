@@ -9,6 +9,7 @@ package me.dzineit.selectionapi;
 import org.spout.api.Spout;
 import org.spout.api.entity.Player;
 import org.spout.api.geo.World;
+import org.spout.api.geo.discrete.Point;
 
 public class Selection extends BiPointRegion {
     private String ownerName;
@@ -25,5 +26,4 @@ public class Selection extends BiPointRegion {
     public String getOwnerName() {
         return ownerName;
     }
-
 }
