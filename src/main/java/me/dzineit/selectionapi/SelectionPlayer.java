@@ -30,10 +30,10 @@ public class SelectionPlayer extends EntityComponent {
     }
 
     public int getSelecting() {
-    	return selecting;
+        return selecting;
     }
 
-	public void setSelecting(int selecting) {
-		this.selecting = selecting;
-	}
+    public void setSelecting(int selecting) {
+        this.selecting = selecting;
+    }
 }

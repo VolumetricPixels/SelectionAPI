@@ -35,13 +35,13 @@ public class BiPointRegion {
         return pos2;
     }
 
-	public void setPos(int a, Point position) {
-		if (a == 1) {
-			setPos1(position);
-		} else if (a == 2) {
-			setPos2(position);
-		}
-	}
+    public void setPos(int a, Point position) {
+        if (a == 1) {
+            setPos1(position);
+        } else if (a == 2) {
+            setPos2(position);
+        }
+    }
 
     public void setPos1(Point pos1) {
         this.pos1 = pos1;
@@ -72,7 +72,7 @@ public class BiPointRegion {
     public boolean isValid() {
         return getPos1() != null && getPos2() != null && pos1.getWorld() == pos2.getWorld();
     }
-    
+
     public Cuboid toCuboid() {
         Point min = getMinPoint();
         Point max = getMaxPoint();
