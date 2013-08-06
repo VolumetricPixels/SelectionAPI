@@ -6,10 +6,10 @@
  */
 package me.dzineit.selectionapi;
 
+import org.spout.api.Server;
 import org.spout.api.Spout;
 import org.spout.api.entity.Player;
 import org.spout.api.geo.World;
-import org.spout.api.geo.discrete.Point;
 
 public class Selection extends BiPointRegion {
     private String ownerName;
@@ -20,7 +20,7 @@ public class Selection extends BiPointRegion {
     }
 
     public Player getOwner() {
-        return Spout.getEngine().getPlayer(getOwnerName(), true);
+        return ((Server) Spout.getEngine()).getPlayer(getOwnerName(), true);
     }
 
     public String getOwnerName() {

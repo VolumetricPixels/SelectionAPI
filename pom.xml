@@ -22,7 +22,11 @@
     <repositories>
         <repository>
             <id>spout-repo</id>
-            <url>http://repo.spout.org</url>
+            <url>http://nexus.spout.org/content/groups/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
         </repository>
     </repositories>
  
